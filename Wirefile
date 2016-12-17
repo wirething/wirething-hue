@@ -1,0 +1,24 @@
+{
+  "name": "Hue",
+  "description": "Wirething module for interacting with Philips Hue devices",
+  "author": "Nathan Kunicki <me@nathankunicki.com>",
+  "main": "./index.js",
+  "devices": [
+    {
+      "name": "Hue Light",
+      "type": "huelight"
+    },
+    {
+      "name": "Hue LivingColors Lamp",
+      "type": "huelivingcolorslamp"
+    },
+    {
+      "name": "Hue Tap Button",
+      "type": "huetapbutton"
+    },
+    {
+      "name": "Hue Dimmer Switch",
+      "type": "huedimmerswitch"
+    }
+  ]
+}
