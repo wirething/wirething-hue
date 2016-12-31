@@ -5,20 +5,12 @@
   "main": "./index.js",
   "devices": [
     {
-      "name": "Hue Light",
-      "type": "huelight"
+      "name": "Extended Color Light",
+      "type": "Extended color light"
     },
     {
-      "name": "Hue LivingColors Lamp",
-      "type": "huelivingcolorslamp"
-    },
-    {
-      "name": "Hue Tap Button",
-      "type": "huetapbutton"
-    },
-    {
-      "name": "Hue Dimmer Switch",
-      "type": "huedimmerswitch"
+      "name": "Color Light",
+      "type": "Color light"
     }
   ]
 }
