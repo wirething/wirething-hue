@@ -40,7 +40,7 @@ class Light extends EventEmitter {
     }
 
 
-    setState (state, update = false) {
+    setState (state, update = true) {
         this._state = Object.assign(this._state, state);
         if (update) {
             return Api.put(`/lights/${this._id}/state`, this._config, state);

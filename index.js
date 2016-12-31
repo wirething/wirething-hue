@@ -49,13 +49,6 @@ class WirethingHue extends EventEmitter {
                         let light = new Light(id, device.uniqueid, device.name, device.type, device.state, this._config);
 
                         this._devices.push(light);
-
-                        if (id === "8") {
-                            setTimeout(() => {
-                                light.turnOn();
-                            }, 2000);
-                        }
-
                         this.emit("discover", light);
                     }
                 });
