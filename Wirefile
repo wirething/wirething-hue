@@ -3,14 +3,61 @@
   "description": "Wirething module for interacting with Philips Hue devices",
   "author": "Nathan Kunicki <me@nathankunicki.com>",
   "main": "./index.js",
-  "devices": [
-    {
-      "name": "Extended Color Light",
-      "type": "Extended color light"
-    },
-    {
-      "name": "Color Light",
-      "type": "Color light"
-    }
-  ]
+  "devices": [{
+    "name": "Extended Color Light",
+    "type": "Extended color light",
+    "outputs": [],
+    "inputs": []
+  }, {
+    "name": "Color Light",
+    "type": "Color light",
+    "outputs": [],
+    "inputs": []
+  }, {
+    "name": "Tap Switch",
+    "type": "ZGPSwitch",
+    "outputs": [{
+      "name": "Press",
+      "event": "press",
+      "params": [{
+        "name": "Button",
+        "param": "button",
+        "type": "Number"
+      }]
+    }],
+    "inputs": []
+  }, {
+    "name": "Dimmer Switch",
+    "type": "ZLLSwitch",
+    "outputs": [{
+      "name": "Press",
+      "event": "press",
+      "params": [{
+        "name": "Button",
+        "param": "button",
+        "type": "Number"
+      }]
+    }, {
+      "name": "Hold",
+      "event": "hold",
+      "params": [{
+        "name": "Button",
+        "param": "button",
+        "type": "Number"
+      }]
+    }, {
+      "name": "Release",
+      "event": "release",
+      "params": [{
+        "name": "Button",
+        "param": "button",
+        "type": "Number"
+      }, {
+        "name": "Duration",
+        "param": "duration",
+        "type": "Number"
+      }]
+    }],
+    "inputs": []
+  }]
 }

@@ -1,4 +1,5 @@
-const request = require("request");
+const request = require("request"),
+      debugLog = require("debug")("WirethingHue");
 
 
 class Api {
@@ -6,7 +7,10 @@ class Api {
     static get (endpoint, config) {
         return new Promise((resolve, reject) => {
 
+            let startTime = +(new Date());
             request(`http://${config.bridge}/api/${config.secret}${endpoint}`, (err, res, body) => {
+                let endTime = +(new Date());
+                //debugLog(`Api GET returned in ${endTime - startTime}ms`);
                 if (!err && res.statusCode === 200) {
                     resolve(JSON.parse(body));
                 } else {

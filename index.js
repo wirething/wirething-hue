@@ -4,7 +4,12 @@ const EventEmitter = require("events").EventEmitter,
 
 
 const Light = require("./src/light.js"),
+      Switch = require("./src/switch.js"),
       Api = require("./src/api.js");
+
+
+const KnownSensors = ["ZGPSwitch", "ZLLSwitch"],
+      KnownLights = ["Color light", "Extended color light"];
 
 
 class WirethingHue extends EventEmitter {
@@ -20,17 +25,20 @@ class WirethingHue extends EventEmitter {
 
 
     wirethingInit () {
-        this._discoverLights();
-        this._discoverSwitches();
+        setInterval(() => {
+            this._discoverLights();
+            this._discoverSwitches();
+        }, 500);
     }
 
 
     _checkForExistingDevice (uuid) {
-        this._devices.forEach((device) => {
-            if (uuid === device._uuid) {
-                return true;
+        for (let i = 0; i < this._devices.length; i++) {
+            let device = this._devices[i];
+            if (uuid === device.uuid) {
+                return device;
             }
-        });
+        }
         return false;
     }
 
@@ -39,17 +47,21 @@ class WirethingHue extends EventEmitter {
         return new Promise((resolve, reject) => {
 
             Api.get("/lights/", this._config).then((json) => {
-
                 let deviceIds = Object.keys(json);
 
                 deviceIds.forEach((id) => {
-                    let device = json[id];
+                    let device = json[id],
+                        existingDevice = this._checkForExistingDevice(device.uniqueid);
 
-                    if (!this._checkForExistingDevice(device.uniqueid)) {
-                        let light = new Light(id, device.uniqueid, device.name, device.type, device.state, this._config);
+                    if (!existingDevice) {
+                        if (KnownLights.indexOf(device.type) >= 0) {
+                            let light = new Light(id, device.uniqueid, device.name, device.type, device.state, this._config);
 
-                        this._devices.push(light);
-                        this.emit("discover", light);
+                            this._devices.push(light);
+                            this.emit("discover", light);
+                        }
+                    } else {
+                        existingDevice.setState(device.state, false);
                     }
                 });
 
@@ -68,8 +80,23 @@ class WirethingHue extends EventEmitter {
                 let deviceIds = Object.keys(json);
 
                 deviceIds.forEach((id) => {
-                    //console.log(json[id]);
+                    let device = json[id],
+                        existingDevice = this._checkForExistingDevice(device.uniqueid);
+
+                    if (!existingDevice) {
+                        if (KnownSensors.indexOf(device.type) >= 0) {
+                            let swi = new Switch(id, device.uniqueid, device.name, device.type, device.state, this._config);
+
+                            this._devices.push(swi);
+                            this.emit("discover", swi);
+                        }
+                    } else {
+                        existingDevice.setState(device.state, false);
+                    }
                 });
+
+                resolve();
+
             });
 
             resolve();
