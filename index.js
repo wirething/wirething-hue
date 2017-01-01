@@ -20,6 +20,7 @@ class WirethingHue extends EventEmitter {
         super();
         this._config = config || {};
         this._devices = [];
+        this._delay = 300;
 
     }
 
@@ -28,7 +29,7 @@ class WirethingHue extends EventEmitter {
         setInterval(() => {
             this._discoverLights();
             this._discoverSwitches();
-        }, 500);
+        }, this._delay);
     }
 
 
@@ -67,6 +68,8 @@ class WirethingHue extends EventEmitter {
 
                 resolve();
 
+            }).catch(() => {
+                resolve();
             });
 
         });
@@ -97,9 +100,9 @@ class WirethingHue extends EventEmitter {
 
                 resolve();
 
+            }).catch(() => {
+                resolve();
             });
-
-            resolve();
 
         });
     }
